@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chào mừng 50 Năm Ngày Giải phóng miền Nam (1975-2025)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the body and overall layout */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font for body text */
+            background-color: #eef2f7; /* Lighter, softer background */
+            color: #333; /* Darker text for readability */
+            line-height: 1.7; /* Slightly increased line height */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal overflow, important for responsiveness */
+        }
+
+        /* Styles for the main content containers */
+        .content-container {
+             max-width: 900px; /* Increased max width for better content display */
+            background-color: #ffffff; /* White background */
+            padding: 40px; /* Increased padding */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
+            text-align: center;
+            margin: 60px auto; /* Center the container and add more margin */
+            position: relative; /* Needed for potential future effects */
+            z-index: 1; /* Ensure it's above background elements if any */
+            min-height: 500px; /* Minimum height */
+            display: flex; /* Use flexbox for centering content */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* Styles for the main title */
+        .main-title {
+            font-family: 'Playfair Display', serif; /* Use Playfair Display for titles */
+            font-size: 2.8em; /* Larger title */
+            color: #c0392b; /* Deeper red for clarity */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+            margin-bottom: 20px;
+        }
+
+        /* Styles for highlighting the date */
+        .date-highlight {
+            color: #f39c12; /* More vibrant orange */
+            font-weight: 700; /* Bolder */
+             cursor: pointer; /* Indicate it's clickable */
+        }
+
+        /* Custom styles for the animation section */
+        .animation-container {
+            position: fixed; /* Fixed position to cover the screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #2c3e50; /* Dark background for contrast */
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: flex-end; /* Align content to the bottom */
+            overflow: hidden; /* Hide overflow for animations */
+            z-index: 20; /* Above celebration section */
+            padding-bottom: 20px; /* Space from bottom */
+        }
+
+        /* Container for the gates */
+        .gate-container {
+            position: absolute; /* Position relative to animation-container */
+            bottom: 0; /* Align to bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for centering */
+            width: 80%; /* Adjust size as needed */
+            max-width: 600px; /* Maximum width for the gate area */
+            height: 150px; /* Height of the gate area */
+            display: flex;
+            justify-content: space-between; /* Space between the two gate parts */
+            align-items: flex-end; /* Align gates at the bottom */
+            overflow: hidden; /* Hide gate parts as they move off */
+            z-index: 20; /* Ensure gates are below tank initially */
+        }
+
+        /* Styles for the left and right gate parts */
+        .gate-left, .gate-right {
+            width: 48%; /* Each gate takes almost half the width */
+            height: 100%;
+            background-color: #7f8c8d; /* Gate color */
+            position: relative;
+            box-sizing: border-box; /* Include border in element's total width and height */
+            border: 5px solid #34495e; /* Gate border */
+            transition: transform 1s ease-in; /* Smooth transition for crashing */
+        }
+
+        /* Transform origin for the left gate (rotates from bottom right) */
+        .gate-left {
+            transform-origin: bottom right;
+        }
+
+        /* Transform origin for the right gate (rotates from bottom left) */
+        .gate-right {
+            transform-origin: bottom left;
+        }
+
+        /* Styles for the animated tank */
+        .tank {
+            position: absolute;
+            bottom: 20px; /* Position slightly above the bottom padding */
+            left: 5%; /* Start from the left side */
+            width: 150px; /* Tank size */
+            height: 80px;
+            background-color: #27ae60; /* Tank color (green) */
+            border-radius: 15px 15px 0 0; /* Rounded top corners */
+            transition: left 3s linear; /* Animation for tank movement (increased duration) */
+            z-index: 21; /* Ensure tank is above gates */
+            display: flex; /* Use flexbox for internal layout */
+            align-items: flex-start; /* Align items to the top */
+            justify-content: center; /* Center items horizontally */
+            padding-top: 5px; /* Space for soldiers/flag */
+        }
+
+        /* Styles for the tank turret (pseudo-element) */
+        .tank::before { /* Turret */
+            content: '';
+            position: absolute;
+            top: -25px; /* Position above the base */
+            left: 30px;
+            width: 90px;
+            height: 40px;
+            background-color: #2ecc71; /* Lighter green */
+            border-radius: 8px 8px 0 0; /* Rounded top corners */
+            z-index: 1; /* Ensure turret is below soldiers/flag */
+        }
+
+        /* Styles for the tank barrel (pseudo-element) */
+        .tank::after { /* Barrel */
+            content: '';
+            position: absolute;
+            top: -30px; /* Position above the turret */
+            left: 60px;
+            width: 100px;
+            height: 12px;
+            background-color: #34495e; /* Dark color */
+            border-radius: 6px;
+            transform: rotate(-10deg); /* Slight angle */
+            transform-origin: left center; /* Rotate from the left end */
+            z-index: 0; /* Ensure barrel is below turret */
+        }
+
+        /* Container for the soldiers on the tank */
+        .soldiers-container {
+            position: absolute;
+            top: -10px; /* Position above the tank base */
+            left: 0;
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-around; /* Distribute soldiers evenly */
+            align-items: center;
+            z-index: 2; /* Ensure soldiers are above turret */
+        }
+
+        /* Styles for individual soldiers (simplified shapes) */
+        .soldier {
+            width: 15px; /* Soldier size */
+            height: 20px;
+            background-color: #e74c3c; /* Red color for soldiers */
+            border-radius: 3px;
+        }
+
+        /* Styles for the Vietnam flag on the tank */
+        .vietnam-flag {
+            position: absolute;
+            top: -40px; /* Position above the soldiers */
+            right: 10px; /* Position on the right side of the tank top */
+            width: 40px; /* Flag size */
+            height: 25px;
+            background-color: #e74c3c; /* Red background */
+            z-index: 3; /* Ensure flag is on top */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #fff; /* Small white border */
+        }
+
+        /* Styles for the star on the Vietnam flag (pseudo-element) */
+        .vietnam-flag::before { /* Star */
+            content: '★'; /* Unicode star character */
+            font-size: 1.5em; /* Star size */
+            color: #f1c40f; /* Yellow color */
+        }
+
+
+        /* Custom styles for the celebration section */
+        .celebration-container {
+            position: fixed; /* Use fixed to cover the whole screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Animated gradient background */
+            background: linear-gradient(135deg, #c0392b, #e74c3c, #f39c12); /* More complex gradient */
+            background-size: 400% 400%; /* For animated gradient */
+            animation: gradient-animation 15s ease infinite; /* Gradient animation */
+            color: #fff; /* White text */
+            overflow: hidden; /* Hide overflow for animations */
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack items vertically */
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        /* Keyframes for the gradient animation */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Styles for the flying text elements */
+        .flying-text {
+            position: absolute;
+            font-size: 2.2em; /* Slightly larger flying text */
+            font-weight: bold;
+            white-space: nowrap; /* Prevent text wrapping */
+            animation: fly-across linear infinite; /* Apply animation */
+            opacity: 0; /* Start invisible */
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7); /* Stronger text shadow */
+            /* Ensure text doesn't go behind the main message if any */
+            z-index: 11;
+            /* Add some subtle color variation */
+            color: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+        }
+
+        /* Main message in the celebration section */
+        .main-celebration-message {
+            font-family: 'Playfair Display', serif; /* Use Playfair Display */
+            font-size: 4.5em; /* Even larger text */
+            font-weight: 700;
+            /* Set the color to yellow and enhance text shadow */
+            color: #ffff00; /* Bright yellow color */
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.6), 0 0 30px rgba(255, 255, 0, 0.4); /* Glowing yellow shadow */
+            z-index: 12; /* Ensure it's above flying text */
+            margin-bottom: 50px; /* More space below the main message */
+        }
+
+        /* Define the animation for flying text */
+        /* Using variables for more dynamic animation */
+        @keyframes fly-across {
+            0% {
+                left: var(--start-x, -20%); /* Start off-screen left, potentially varied */
+                top: var(--start-y, 50vh); /* Varied start vertical position */
+                opacity: 0;
+                transform: scale(var(--start-scale, 0.7)) rotate(var(--start-rotate, 0deg)); /* Initial transform */
+            }
+            40% { /* Added a mid-point keyframe */
+                left: var(--mid-x, 50%); /* Horizontal position at mid-point */
+                top: var(--mid-y, var(--start-y, 50vh)); /* Vertical position at mid-point */
+                opacity: 1;
+                transform: scale(var(--mid-scale, 1)) rotate(var(--mid-rotate, var(--start-rotate, 0deg)));
+            }
+            100% {
+                left: var(--end-x, 120%); /* End off-screen right, potentially varied */
+                top: var(--end-y, var(--start-y, 50vh)); /* Varied end vertical position */
+                opacity: 0; /* Fade out */
+                transform: scale(var(--end-scale, 1.3)) rotate(var(--end-rotate, var(--start-rotate, 0deg))); /* Final transform */
+            }
+        }
+
+        /* Style for buttons */
+        .action-button {
+            background-color: #3498db; /* A nice blue */
+            color: white;
+            padding: 12px 30px; /* More padding */
+            font-size: 1.2em; /* Larger font */
+            font-weight: 600;
+            border: none;
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+             margin-top: 15px; /* Space above the button */
+             margin: 10px; /* Space around buttons */
+        }
+
+        .action-button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        .action-button:active {
+            transform: translateY(0); /* Press effect */
+        }
+
+         /* Style for the Quiz Set Selection buttons */
+        .quiz-set-button {
+            background-color: #2ecc71; /* Green color */
+             margin-bottom: 15px; /* Space below buttons */
+        }
+
+         .quiz-set-button:hover {
+            background-color: #27ae60; /* Darker green on hover */
+        }
+
+         /* Style for the Retry button */
+         .retry-button {
+             background-color: #e74c3c; /* Red color */
+         }
+
+         .retry-button:hover {
+             background-color: #c0392b; /* Darker red */
+         }
+
+
+        /* Styles for the quiz elements */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .quiz-progress {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: center; /* Center the progress dots */
+            margin-bottom: 20px;
+        }
+
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            background-color: #bdc3c7; /* Grey for unanswered */
+            border-radius: 50%;
+            margin: 3px; /* Reduced margin */
+            display: inline-block; /* Ensure they are in a line */
+        }
+
+        .progress-dot.answered {
+            background-color: #2ecc71; /* Green for answered */
+        }
+
+         .progress-dot.current {
+            background-color: #3498db; /* Blue for current */
+            transform: scale(1.2); /* Slightly larger for current */
+        }
+
+
+        .quiz-question {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid; /* Use grid for a more structured layout */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+            gap: 15px; /* Space between options */
+            width: 100%;
+            max-width: 700px; /* Max width for options container */
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background-color: #ecf0f1; /* Light background */
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left; /* Align text to the left */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 1px solid #bdc3c7; /* Subtle border */
+        }
+
+        .quiz-option:hover {
+            background-color: #dcdfe4; /* Slightly darker on hover */
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            background-color: #2ecc71; /* Green for correct */
+            color: white;
+            font-weight: 600;
+        }
+
+        .quiz-option.wrong {
+            background-color: #e74c3c; /* Red for wrong */
+            color: white;
+            font-weight: 600;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none; /* Disable clicks */
+            opacity: 0.7;
+        }
+
+        .quiz-feedback {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 20px;
+            min-height: 1.5em; /* Reserve space to prevent layout shifts */
+        }
+
+        .quiz-feedback.correct {
+            color: #2ecc71; /* Green */
+        }
+
+        .quiz-feedback.wrong, .quiz-feedback.timeout {
+            color: #e74c3c; /* Red */
+        }
+
+        /* Styles for the completion message */
+        .completion-message {
+            font-size: 2em;
+            font-weight: 700;
+            color: #27ae60; /* Green color */
+            margin-bottom: 30px;
+        }
+
+         /* Styles for the Admin Login Modal */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 30; /* Above all other content */
+        }
+
+        .admin-modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 400px; /* Max width for the modal */
+        }
+
+        .admin-modal-content h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .admin-modal-content input {
+            width: calc(100% - 20px); /* Adjust width for padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .admin-modal-content button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .admin-modal-content button:hover {
+            background-color: #2980b9;
+        }
+
+         .admin-modal-feedback {
+             color: #e74c3c; /* Red for error messages */
+             margin-top: 10px;
+             min-height: 1.2em; /* Reserve space */
+         }
+
+         /* Styles for the Summary Board */
+         .summary-board {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
+
+         .summary-board h2 {
+             font-size: 2em;
+             color: #c0392b;
+             margin-bottom: 20px;
+         }
+
+         .summary-board p {
+             font-size: 1.5em;
+             margin-bottom: 20px;
+         }
+
+         .summary-board .score {
+             font-weight: 700;
+             color: #27ae60; /* Green for score */
+         }
+
+
+        /* Media query for smaller screens to adjust font sizes and layout */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 20px; /* Reduced padding on smaller screens */
+                margin: 30px auto; /* Reduced margin */
+            }
+            .main-title {
+                font-size: 2em; /* Smaller title on smaller screens */
+            }
+            .main-celebration-message {
+                font-size: 2.5em; /* Smaller main message */
+            }
+            .flying-text {
+                font-size: 1.5em; /* Smaller flying text */
+            }
+            .tank {
+                 width: 100px; /* Smaller tank */
+                 height: 60px;
+                 bottom: 10px; /* Adjust position */
+            }
+             .tank::before { /* Turret */
+                top: -15px; /* Adjust position */
+                left: 20px;
+                width: 60px;
+                height: 30px;
+            }
+            .tank::after { /* Barrel */
+                top: -20px; /* Adjust position */
+                left: 40px;
+                width: 70px;
+                height: 8px;
+            }
+             .soldier {
+                 width: 10px; /* Smaller soldiers */
+                 height: 15px;
+             }
+             .vietnam-flag {
+                 top: -30px; /* Adjust position */
+                 right: 5px;
+                 width: 30px; /* Smaller flag */
+                 height: 20px;
+             }
+             .vietnam-flag::before { /* Star */
+                 font-size: 1em; /* Smaller star */
+             }
+             .gate-container {
+                 width: 90%; /* Wider gate area on smaller screens */
+                 height: 100px; /* Shorter gates */
+             }
+
+             .quiz-question {
+                 font-size: 1.2em; /* Smaller question text */
+             }
+
+             .quiz-options {
+                 grid-template-columns: 1fr; /* Stack options on small screens */
+             }
+
+             .quiz-option {
+                 padding: 10px; /* Reduced padding */
+             }
+
+             .quiz-feedback {
+                 font-size: 1em; /* Smaller feedback text */
+             }
+
+             .admin-modal-content {
+                 padding: 20px; /* Reduced padding in modal */
+             }
+
+             .summary-board h2 {
+                 font-size: 1.5em; /* Smaller summary title */
+             }
+
+             .summary-board p {
+                 font-size: 1.2em; /* Smaller summary text */
+             }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="infoSection" class="content-container">
+        <h1 class="main-title">
+            Chào mừng 50 năm Ngày Giải phóng miền Nam, thống nhất đất nước
+        </h1>
+         <p id="debugClickTarget" class="text-xl mb-6">
+            <span class="date-highlight">30 tháng 4 năm 1975 - 30 tháng 4 năm 2025</span>
+        </p>
+        <p class="text-lg mb-4">
+            Xin chào! Tôi là HỒ THÁI LONG, người tạo ra trang web nhỏ này.
+        </p>
+        <p class="text-lg mb-4">
+            Trang web này được tạo ra nhằm mục đích vui vẻ, thử sức với giới trẻ hiện nay, một phần là để giới trẻ tiếp xúc gần gũi hơn với lịch sử Việt Nam chúng ta.
+        </p>
+        <p class="text-lg mb-4">
+            Trân trọng, trang web này hoàn toàn miễn phí. Tôi mong muốn mọi người dùng đúng cách, không sử dụng cho mục đích trục lợi, kiếm tiền, làm trend với bất kỳ trường hợp nào.
+        </p>
+        <p class="text-lg mb-6">
+            Mọi thắc mắc xin liên hệ qua email: <a href="mailto:thailongho265@gmail.com" class="text-blue-600 hover:underline">thailongho265@gmail.com</a>. Xin cảm ơn!
+        </p>
+
+        <button id="startQuizSelectionButton" class="action-button">
+            Bắt đầu
+        </button>
+    </div>
+
+     <div id="quizSelection" class="content-container" style="display: none;">
+         <h1 class="main-title">Chọn Bộ Câu Hỏi Lịch Sử</h1>
+         <p class="text-lg mb-8">Hãy chọn một bộ câu hỏi để bắt đầu thử thách kiến thức lịch sử của bạn!</p>
+
+         <button class="action-button quiz-set-button" data-set="0">
+             Bộ Câu Hỏi 1
+         </button>
+         <button class="action-button quiz-set-button" data-set="1">
+             Bộ Câu Hỏi 2
+         </button>
+         <button class="action-button quiz-set-button" data-set="2">
+             Bộ Câu Hỏi 3
+         </button>
+         <button class="action-button quiz-set-button" data-set="3">
+             Bộ Câu Hỏi 4
+         </button>
+    </div>
+
+
+    <div id="adminModal" class="admin-modal" style="display: none;">
+        <div class="admin-modal-content">
+            <h2>Đăng nhập Admin</h2>
+            <input type="text" id="adminUsername" placeholder="Tên đăng nhập">
+            <input type="password" id="adminPassword" placeholder="Mật khẩu">
+            <button id="adminLoginButton">Đăng nhập</button>
+            <div id="adminFeedback" class="admin-modal-feedback"></div>
+        </div>
+    </div>
+
+
+    <div id="quizContent" class="content-container" style="display: none;">
+        <div class="quiz-header">
+            <div id="questionCounter">Câu hỏi: 1/50</div>
+            <div id="timer">Thời gian: 60s</div>
+        </div>
+         <div id="quizProgressDots" class="quiz-progress">
+            </div>
+        <div id="questionText" class="quiz-question">
+            </div>
+        <div id="answerOptions" class="quiz-options">
+            </div>
+        <div id="quizFeedback" class="quiz-feedback">
+            </div>
+    </div>
+
+     <div id="summaryBoard" class="content-container summary-board" style="display: none;">
+        <h2>Kết Quả Bài Trắc Nghiệm</h2>
+        <p>Bạn đã trả lời đúng <span id="correctAnswersCount" class="score">0</span> / 50 câu.</p>
+        <button id="summaryActionButton" class="action-button"></button>
+    </div>
+
+
+     <div id="completionMessage" class="content-container completion-message" style="display: none;">
+        Chúc mừng bạn, xứng đáng là cháu bác Hồ, thanh niên yêu nước, lòng yêu nước
+    </div>
+
+
+    <div id="animationSection" class="animation-container">
+        <div class="gate-container">
+            <div class="gate-left" id="gateLeft"></div>
+            <div class="gate-right" id="gateRight"></div>
+        </div>
+        <div class="tank" id="animatedTank">
+            <div class="soldiers-container">
+                <div class="soldier"></div>
+                <div class="soldier"></div>
+                <div class="soldier"></div>
+                <div class="soldier"></div>
+                <div class="soldier"></div>
+                <div class="soldier"></div>
+            </div>
+            <div class="vietnam-flag"></div>
+        </div>
+    </div>
+
+    <div id="celebrationSection" class="celebration-container">
+        <div class="main-celebration-message">
+            Đại thắng Mùa Xuân 1975!
+        </div>
+    </div>
+
+    <script>
+        // Array of messages for the flying text animation
+        const originalMessages = [
+            "Chúc mừng Đại thắng 30/4!",
+            "50 năm lịch sử hào hùng!",
+            "Giải phóng miền Nam!",
+            "Thống nhất đất nước!",
+            "Việt Nam Hòa bình!",
+            "Độc lập - Tự do - Hạnh phúc!",
+            "Vinh quang Việt Nam!",
+            "Chào mừng 50 năm!",
+            "Mốc son lịch sử!",
+            "Tự hào Việt Nam!",
+            "Việt Nam muôn năm!",
+            "Tinh thần 30/4 bất diệt!",
+            "Xây dựng đất nước giàu mạnh!",
+            "Tiến lên Việt Nam!",
+            "Kỷ niệm vẻ vang!",
+            "Đại đoàn kết toàn dân tộc!",
+            "Nhớ ơn các anh hùng liệt sĩ!",
+            "Việt Nam trên đường đổi mới!",
+            "Hội nhập và phát triển!",
+            "Tương lai tươi sáng!",
+            "Non sông liền một dải!",
+            "Việt Nam - Một Dải Sơn Hà!",
+            "Khát vọng hòa bình!",
+            "Sức mạnh Việt Nam!",
+            "Đường tới vinh quang!",
+            "Hào khí tháng Tư!",
+            "Kỷ nguyên mới!",
+            "Vững bước đi lên!",
+            "Việt Nam tươi đẹp!",
+            "Tự do vĩnh cửu!"
+        ];
+
+        let availableMessages = [...originalMessages]; // Copy of messages to pick from
+
+        // Get references to the different sections and elements
+        const infoSection = document.getElementById('infoSection');
+        const quizSelection = document.getElementById('quizSelection'); // Renamed from greetingSection
+        const quizContent = document.getElementById('quizContent');
+        const summaryBoard = document.getElementById('summaryBoard'); // Get summary board element
+        const completionMessage = document.getElementById('completionMessage'); // Get completion message element
+        const animationSection = document.getElementById('animationSection');
+        const celebrationSection = document.getElementById('celebrationSection');
+        const startQuizSelectionButton = document.getElementById('startQuizSelectionButton'); // Button to go from info to quiz selection
+        const debugClickTarget = document.getElementById('debugClickTarget'); // Get the element to click for debug
+        const flyingTextContainer = document.querySelector('#celebrationSection');
+        const summaryActionButton = document.getElementById('summaryActionButton'); // Button on summary board
+        const correctAnswersCountSpan = document.getElementById('correctAnswersCount'); // Span to display correct answers
+
+        // Get quiz elements
+        const questionCounter = document.getElementById('questionCounter');
+        const timerDisplay = document.getElementById('timer');
+        const quizProgressDots = document.getElementById('quizProgressDots');
+        const questionText = document.getElementById('questionText');
+        const answerOptionsDiv = document.getElementById('answerOptions');
+        const quizFeedback = document.getElementById('quizFeedback');
+
+         // Get admin modal elements
+        const adminModal = document.getElementById('adminModal');
+        const adminUsernameInput = document.getElementById('adminUsername');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const adminLoginButton = document.getElementById('adminLoginButton');
+        const adminFeedback = document.getElementById('adminFeedback');
+
+
+        // Get elements for animation
+        const animatedTank = document.getElementById('animatedTank');
+        const gateLeft = document.getElementById('gateLeft');
+        const gateRight = document.getElementById('gateRight');
+
+        // Quiz variables
+        let questions = []; // Array to hold quiz questions for the current set
+        let currentQuestionIndex = 0;
+        let timer;
+        const timePerQuestion = 60; // 60 seconds per question
+        const totalQuestions = 50; // Total number of questions
+        let correctAnswers = 0; // Counter for correct answers
+
+        // Admin credentials (hidden in variables)
+        const adminUser = "hothailong";
+        const adminPass = "1237890";
+
+        // Debug click counter variables
+        let debugClickCounter = 0;
+        let debugClickTimer = null;
+        const debugClickThreshold = 10; // Number of clicks to trigger debug
+        const debugClickTimeout = 500; // Time in ms to reset counter if no new click
+
+
+        // --- Quiz Questions (4 Sets) ---
+        const allQuizQuestionsSet1 = [
+            {
+                question: "Chiến dịch nào kết thúc cuộc kháng chiến chống Mỹ, cứu nước của dân tộc Việt Nam?",
+                correctAnswer: "Chiến dịch Hồ Chí Minh",
+                wrongAnswers: ["Chiến dịch Điện Biên Phủ", "Chiến dịch Biên giới", "Chiến dịch Việt Bắc", "Chiến dịch Tây Nguyên", "Chiến dịch Đường 9 - Nam Lào"]
+            },
+            {
+                question: "Ngày Giải phóng miền Nam, thống nhất đất nước là ngày nào?",
+                correctAnswer: "30 tháng 4 năm 1975",
+                wrongAnswers: ["19 tháng 8 năm 1945", "2 tháng 9 năm 1945", "7 tháng 5 năm 1954", "22 tháng 12 năm 1944", "3 tháng 2 năm 1930"]
+            },
+            {
+                question: "Dinh Độc Lập (nay là Hội trường Thống Nhất) là mục tiêu cuối cùng của cánh quân nào trong Chiến dịch Hồ Chí Minh?",
+                correctAnswer: "Cánh quân giải phóng Sài Gòn",
+                wrongAnswers: ["Cánh quân phía Đông", "Cánh quân phía Bắc", "Cánh quân phía Tây Bắc", "Cánh quân phía Tây Nam", "Cánh quân phía Đông Bắc"]
+            },
+             {
+                question: "Xe tăng mang số hiệu nào húc đổ cổng Dinh Độc Lập vào trưa ngày 30/4/1975?",
+                correctAnswer: "Xe tăng 390",
+                wrongAnswers: ["Xe tăng 843", "Xe tăng 593", "Xe tăng 380", "Xe tăng 940", "Xe tăng 370"]
+            },
+             {
+                question: "Ai là người cắm lá cờ Mặt trận Dân tộc Giải phóng miền Nam Việt Nam trên nóc Dinh Độc Lập trưa ngày 30/4/1975?",
+                correctAnswer: "Bùi Quang Thận",
+                wrongAnswers: ["Nguyễn Văn Thiệu", "Dương Văn Minh", "Phạm Xuân Ẩn", "Nguyễn Hữu Thọ", "Võ Nguyên Giáp"]
+            },
+             {
+                question: "Tổng thống cuối cùng của Việt Nam Cộng hòa tuyên bố đầu hàng vô điều kiện vào ngày 30/4/1975 là ai?",
+                correctAnswer: "Dương Văn Minh",
+                wrongAnswers: ["Nguyễn Văn Thiệu", "Ngô Đình Diệm", "Nguyễn Cao Kỳ", "Trần Văn Hương", "Phan Khắc Sửu"]
+            },
+             {
+                question: "Sự kiện 30/4/1975 còn được gọi là gì?",
+                correctAnswer: "Đại thắng Mùa Xuân 1975",
+                wrongAnswers: ["Cách mạng tháng Tám", "Khởi nghĩa Nam Kỳ", "Tổng tiến công và nổi dậy Tết Mậu Thân", "Chiến thắng Điện Biên Phủ trên không", "Phong trào Đồng Khởi"]
+            },
+             {
+                question: "Trước Chiến dịch Hồ Chí Minh, quân ta đã giành thắng lợi vang dội trong chiến dịch nào, tạo đà cho cuộc tổng tiến công cuối cùng?",
+                correctAnswer: "Chiến dịch Tây Nguyên",
+                wrongAnswers: ["Chiến dịch Thượng Lào", "Chiến dịch Đông Xuân 1953-1954", "Chiến dịch Biên giới Thu Đông 1950", "Chiến dịch Việt Bắc Thu Đông 1947", "Chiến dịch Điện Biên Phủ"]
+            },
+             {
+                question: "Bộ Chỉ huy Chiến dịch Hồ Chí Minh được đặt ở đâu?",
+                correctAnswer: "Tân Uyên, Bình Dương",
+                wrongAnswers: ["Củ Chi, Sài Gòn", "Dầu Tiếng, Bình Dương", "Long Khánh, Đồng Nai", "Biên Hòa, Đồng Nai", "Phan Rang, Ninh Thuận"]
+            },
+             {
+                question: "Tên gọi ban đầu của Chiến dịch Hồ Chí Minh là gì?",
+                correctAnswer: "Chiến dịch giải phóng Sài Gòn - Gia Định",
+                wrongAnswers: ["Chiến dịch Tổng tiến công miền Nam", "Chiến dịch Nam tiến", "Chiến dịch Thống nhất", "Chiến dịch Quyết Thắng", "Chiến dịch Mùa Xuân"]
+            },
+             {
+                question: "Quân giải phóng tiến vào Sài Gòn từ mấy hướng chính?",
+                correctAnswer: "5 hướng",
+                wrongAnswers: ["3 hướng", "4 hướng", "6 hướng", "7 hướng", "8 hướng"]
+            },
+             {
+                question: "Ngày 30/4/1975, lá cờ cách mạng tung bay trên nóc Dinh Độc Lập có mấy cánh sao vàng?",
+                correctAnswer: "Một ngôi sao vàng 5 cánh",
+                wrongAnswers: ["Hai ngôi sao vàng", "Ba ngôi sao vàng", "Bốn ngôi sao vàng", "Năm ngôi sao vàng", "Sáu ngôi sao vàng"]
+            },
+             {
+                question: "Đơn vị xe tăng đầu tiên tiến vào Dinh Độc Lập là đơn vị nào?",
+                correctAnswer: "Đại đội 4, Tiểu đoàn 1, Lữ đoàn xe tăng 203",
+                wrongAnswers: ["Đại đội 1, Tiểu đoàn 2, Lữ đoàn xe tăng 203", "Đại đội 2, Tiểu đoàn 3, Lữ đoàn xe tăng 203", "Đại đội 3, Tiểu đoàn 1, Lữ đoàn xe tăng 203", "Đại đội 5, Tiểu đoàn 2, Lữ đoàn xe tăng 203", "Đại đội 6, Tiểu đoàn 3, Lữ đoàn xe tăng 203"]
+            },
+             {
+                question: "Chiến dịch Hồ Chí Minh diễn ra trong khoảng thời gian nào?",
+                correctAnswer: "Từ 26/4 đến 30/4/1975",
+                wrongAnswers: ["Từ 1/4 đến 30/4/1975", "Từ 15/4 đến 30/4/1975", "Từ 20/4 đến 30/4/1975", "Từ 25/4 đến 30/4/1975", "Từ 28/4 đến 30/4/1975"]
+            },
+             {
+                question: "Tỉnh nào là tỉnh đầu tiên ở miền Nam được giải phóng hoàn toàn trong cuộc Tổng tiến công và nổi dậy mùa Xuân 1975?",
+                correctAnswer: "Phước Long",
+                wrongAnswers: ["Buôn Ma Thuột", "Huế", "Đà Nẵng", "Nha Trang", "Đà Lạt"]
+            },
+             {
+                question: "Trận đánh mở màn cho cuộc Tổng tiến công và nổi dậy mùa Xuân 1975 là trận nào?",
+                correctAnswer: "Trận Buôn Ma Thuột",
+                wrongAnswers: ["Trận Phước Long", "Trận Huế", "Trận Đà Nẵng", "Trận Xuân Lộc", "Trận Đồng Xoài"]
+            },
+            {
+                question: "Trong Chiến dịch Hồ Chí Minh, hướng tiến công chủ yếu của quân ta là hướng nào?",
+                correctAnswer: "Hướng Đông và Đông Nam",
+                wrongAnswers: ["Hướng Bắc và Tây Bắc", "Hướng Tây và Tây Nam", "Hướng Nam và Đông Nam", "Hướng Bắc và Đông Bắc", "Hướng Tây và Đông"]
+            },
+            {
+                question: "Đường Trường Sơn (Đường Hồ Chí Minh trên bộ) đóng vai trò quan trọng như thế nào trong cuộc kháng chiến chống Mỹ?",
+                correctAnswer: "Là tuyến chi viện chiến lược cho miền Nam",
+                wrongAnswers: ["Là nơi xây dựng căn cứ địa cách mạng", "Là nơi diễn ra các trận đánh lớn", "Là tuyến phòng thủ chính", "Là nơi tập kết quân đội", "Là tuyến giao thương kinh tế"]
+            },
+            {
+                question: "Hiệp định Paris về chấm dứt chiến tranh, lập lại hòa bình ở Việt Nam được ký kết vào năm nào?",
+                correctAnswer: "Năm 1973",
+                wrongAnswers: ["Năm 1954", "Năm 1968", "Năm 1972", "Năm 1974", "Năm 1975"]
+            },
+            {
+                question: "Ai là trưởng đoàn đàm phán của Chính phủ Việt Nam Dân chủ Cộng hòa tại Hội nghị Paris?",
+                correctAnswer: "Lê Đức Thọ",
+                wrongAnswers: ["Nguyễn Duy Trinh", "Xuân Thủy", "Phạm Văn Đồng", "Võ Nguyên Giáp", "Trường Chinh"]
+            },
+            {
+                question: "Phong trào 'Đồng Khởi' ở miền Nam bùng nổ vào năm nào?",
+                correctAnswer: "Năm 1960",
+                wrongAnswers: ["Năm 1954", "Năm 1958", "Năm 1962", "Năm 1965", "Năm 1969"]
+            },
+            {
+                question: "Mặt trận Dân tộc Giải phóng miền Nam Việt Nam được thành lập vào năm nào?",
+                correctAnswer: "Năm 1960",
+                wrongAnswers: ["Năm 1954", "Năm 1961", "Năm 1963", "Năm 1965", "Năm 1975"]
+            },
+            {
+                question: "Cuộc Tổng tiến công và nổi dậy Tết Mậu Thân diễn ra vào năm nào?",
+                correctAnswer: "Năm 1968",
+                wrongAnswers: ["Năm 1965", "Năm 1967", "Năm 1969", "Năm 1970", "Năm 1972"]
+            },
+            {
+                question: "Chiến thắng 'Điện Biên Phủ trên không' (trận Điện Biên Phủ trên bầu trời Hà Nội) diễn ra vào tháng 12 năm nào?",
+                correctAnswer: "Năm 1972",
+                wrongAnswers: ["Năm 1968", "Năm 1969", "Năm 1970", "Năm 1971", "Năm 1973"]
+            },
+            {
+                question: "Ai là Tổng Tư lệnh Chiến dịch Điện Biên Phủ năm 1954?",
+                correctAnswer: "Đại tướng Võ Nguyên Giáp",
+                wrongAnswers: ["Chủ tịch Hồ Chí Minh", "Thủ tướng Phạm Văn Đồng", "Tổng Bí thư Lê Duẩn", "Chủ tịch Trường Chinh", "Đại tướng Văn Tiến Dũng"]
+            },
+            {
+                question: "Sau Hiệp định Genève năm 1954, Việt Nam tạm thời bị chia cắt tại vĩ tuyến bao nhiêu?",
+                correctAnswer: "Vĩ tuyến 17",
+                wrongAnswers: ["Vĩ tuyến 16", "Vĩ tuyến 18", "Vĩ tuyến 19", "Vĩ tuyến 20", "Vĩ tuyến 21"]
+            },
+            {
+                question: "Miền Bắc Việt Nam tiến hành xây dựng chủ nghĩa xã hội từ năm nào?",
+                correctAnswer: "Năm 1954",
+                wrongAnswers: ["Năm 1945", "Năm 1960", "Năm 1965", "Năm 1975", "Năm 1986"]
+            },
+            {
+                question: "Đại hội đại biểu toàn quốc lần thứ III của Đảng Lao động Việt Nam (nay là Đảng Cộng sản Việt Nam) đề ra đường lối cách mạng ở hai miền Nam - Bắc vào năm nào?",
+                correctAnswer: "Năm 1960",
+                wrongAnswers: ["Năm 1951", "Năm 1954", "Năm 1965", "Năm 1975", "Năm 1986"]
+            },
+            {
+                question: "Mỹ bắt đầu đưa quân viễn chinh vào miền Nam Việt Nam với quy mô lớn từ năm nào?",
+                correctAnswer: "Năm 1965",
+                wrongAnswers: ["Năm 1954", "Năm 1960", "Năm 1962", "Năm 1968", "Năm 1973"]
+            },
+            {
+                question: "Chiến lược 'Chiến tranh đặc biệt' của Mỹ ở miền Nam Việt Nam dựa vào lực lượng chủ yếu nào?",
+                correctAnswer: "Quân đội Sài Gòn",
+                wrongAnswers: ["Quân đội Mỹ", "Quân đội đồng minh", "Lực lượng dân quân tự vệ", "Lực lượng biệt kích", "Lực lượng tình báo"]
+            },
+            {
+                question: "Chiến lược 'Chiến tranh cục bộ' của Mỹ ở miền Nam Việt Nam được bắt đầu từ năm nào?",
+                correctAnswer: "Năm 1965",
+                wrongAnswers: ["Năm 1960", "Năm 1963", "Năm 1968", "Năm 1970", "Năm 1973"]
+            },
+            {
+                question: "Sự kiện nào đánh dấu sự phá sản về cơ bản của chiến lược 'Chiến tranh đặc biệt' của Mỹ?",
+                correctAnswer: "Chiến thắng Ấp Bắc (1963)",
+                wrongAnswers: ["Chiến thắng Vạn Tường (1965)", "Tổng tiến công và nổi dậy Tết Mậu Thân (1968)", "Chiến dịch Đường 9 - Nam Lào (1971)", "Chiến dịch Tây Nguyên (1975)", "Chiến dịch Biên giới Thu Đông 1950"]
+            },
+            {
+                question: "Sự kiện nào đánh dấu sự thất bại của chiến lược 'Chiến tranh cục bộ' của Mỹ?",
+                correctAnswer: "Tổng tiến công và nổi dậy Tết Mậu Thân (1968)",
+                wrongAnswers: ["Chiến thắng Ấp Bắc (1963)", "Chiến thắng Vạn Tường (1965)", "Chiến dịch Đường 9 - Nam Lào (1971)", "Chiến dịch Tây Nguyên (1975)", "Chiến dịch Biên giới Thu Đông 1950"]
+            },
+            {
+                question: "Chiến lược 'Việt Nam hóa chiến tranh' của Mỹ bắt đầu từ năm nào?",
+                correctAnswer: "Năm 1969",
+                wrongAnswers: ["Năm 1965", "Năm 1968", "Năm 1970", "Năm 1971", "Năm 1973"]
+            },
+            {
+                question: "Mục tiêu chính của chiến lược 'Việt Nam hóa chiến tranh' là gì?",
+                correctAnswer: "Rút dần quân Mỹ và tăng cường lực lượng quân đội Sài Gòn",
+                wrongAnswers: ["Mở rộng chiến tranh ra toàn Đông Dương", "Tăng cường ném bom miền Bắc", "Cắt đứt đường chi viện của miền Bắc", "Thiết lập chính quyền tay sai lâu dài", "Đàm phán hòa bình với miền Bắc"]
+            },
+            {
+                question: "Sự kiện nào đánh dấu sự phá sản của chiến lược 'Việt Nam hóa chiến tranh'?",
+                correctAnswer: "Chiến dịch Đường 9 - Nam Lào (1971)",
+                wrongAnswers: ["Tổng tiến công và nổi dậy Tết Mậu Thân (1968)", "Chiến thắng Ấp Bắc (1963)", "Chiến dịch Tây Nguyên (1975)", "Chiến dịch Biên giới Thu Đông 1950", "Chiến dịch Điện Biên Phủ trên không (1972)"]
+            },
+            {
+                question: "Trong cuộc Tổng tiến công và nổi dậy mùa Xuân 1975, chiến dịch nào được coi là đòn điểm huyệt, mở màn cho sự sụp đổ của chế độ Sài Gòn?",
+                correctAnswer: "Chiến dịch Tây Nguyên",
+                wrongAnswers: ["Chiến dịch Huế - Đà Nẵng", "Chiến dịch Phước Long", "Chiến dịch Xuân Lộc", "Chiến dịch Hồ Chí Minh", "Chiến dịch Biên giới"]
+            },
+            {
+                question: "Sau chiến thắng Buôn Ma Thuột, quân ta đã giải phóng các tỉnh nào ở Tây Nguyên?",
+                correctAnswer: "Kon Tum, Gia Lai, Đắk Lắk",
+                wrongAnswers: ["Lâm Đồng, Đắk Nông, Gia Lai", "Kon Tum, Gia Lai, Lâm Đồng", "Đắk Lắk, Đắk Nông, Lâm Đồng", "Kon Tum, Đắk Nông, Gia Lai", "Gia Lai, Đắk Lắk, Lâm Đồng"]
+            },
+            {
+                question: "Chiến dịch Huế - Đà Nẵng diễn ra vào thời gian nào trong cuộc Tổng tiến công và nổi dậy mùa Xuân 1975?",
+                correctAnswer: "Cuối tháng 3 năm 1975",
+                wrongAnswers: ["Đầu tháng 3 năm 1975", "Giữa tháng 3 năm 1975", "Đầu tháng 4 năm 1975", "Giữa tháng 4 năm 1975", "Cuối tháng 4 năm 1975"]
+            },
+            {
+                question: "Chiến dịch cuối cùng của quân ta ở miền Nam trước Chiến dịch Hồ Chí Minh là chiến dịch nào?",
+                correctAnswer: "Chiến dịch Xuân Lộc",
+                wrongAnswers: ["Chiến dịch Tây Nguyên", "Chiến dịch Huế - Đà Nẵng", "Chiến dịch Phước Long", "Chiến dịch Đồng Xoài", "Chiến dịch Bình Long"]
+            },
+            {
+                question: "Ai là người đọc Lời kêu gọi toàn quốc kháng chiến năm 1946?",
+                correctAnswer: "Chủ tịch Hồ Chí Minh",
+                wrongAnswers: ["Thủ tướng Phạm Văn Đồng", "Tổng Bí thư Lê Duẩn", "Chủ tịch Trường Chinh", "Đại tướng Võ Nguyên Giáp", "Chủ tịch Tôn Đức Thắng"]
+            },
+            {
+                question: "Ngày thành lập Quân đội Nhân dân Việt Nam là ngày nào?",
+                correctAnswer: "22 tháng 12 năm 1944",
+                wrongAnswers: ["19 tháng 8 năm 1945", "2 tháng 9 năm 1945", "7 tháng 5 năm 1954", "3 tháng 2 năm 1930", "30 tháng 4 năm 1975"]
+            },
+            {
+                question: "Tên gọi đầu tiên của Quân đội Nhân dân Việt Nam là gì?",
+                correctAnswer: "Đội Việt Nam Tuyên truyền Giải phóng quân",
+                wrongAnswers: ["Việt Nam Giải phóng quân", "Quân đội Quốc gia Việt Nam", "Quân đội Nhân dân Việt Nam", "Việt Minh", "Việt Nam độc lập đồng minh"]
+            },
+            {
+                question: "Ai là người thành lập Đội Việt Nam Tuyên truyền Giải phóng quân?",
+                correctAnswer: "Võ Nguyên Giáp",
+                wrongAnswers: ["Hồ Chí Minh", "Trường Chinh", "Phạm Văn Đồng", "Lê Duẩn", "Hoàng Văn Thái"]
+            },
+             {
+                question: "Trong Chiến dịch Hồ Chí Minh, quân ta đã sử dụng chiến thuật đánh như thế nào?",
+                correctAnswer: "Đánh nhanh, thắng nhanh",
+                wrongAnswers: ["Đánh du kích", "Đánh tiêu hao", "Đánh phòng ngự", "Đánh giáp lá cà", "Đánh nghi binh"]
+            },
+             {
+                question: "Tổng hành dinh của Quân giải phóng miền Nam Việt Nam trong Chiến dịch Hồ Chí Minh đặt ở đâu?",
+                correctAnswer: "Căn cứ Tà Thiết, Lộc Ninh, Bình Phước",
+                wrongAnswers: ["Căn cứ Trung ương Cục miền Nam", "Căn cứ Rừng Sác", "Căn cứ Đồng Tháp Mười", "Căn cứ U Minh", "Căn cứ Củ Chi"]
+            },
+             {
+                question: "Ai là Tư lệnh Chiến dịch Hồ Chí Minh?",
+                correctAnswer: "Đại tướng Văn Tiến Dũng",
+                wrongAnswers: ["Đại tướng Võ Nguyên Giáp", "Tổng Bí thư Lê Duẩn", "Chủ tịch Trường Chinh", "Chủ tịch Hồ Chí Minh", "Thủ tướng Phạm Văn Đồng"]
+            },
+             {
+                question: "Ai là Chính ủy Chiến dịch Hồ Chí Minh?",
+                correctAnswer: "Phạm Hùng",
+                wrongAnswers: ["Lê Đức Thọ", "Nguyễn Chí Thanh", "Hoàng Anh", "Trần Văn Trà", "Song Hào"]
+            },
+             {
+                question: "Trong Chiến dịch Hồ Chí Minh, lực lượng nào đã tiến công vào Sân bay Tân Sơn Nhất?",
+                correctAnswer: "Sư đoàn 370 Không quân",
+                wrongAnswers: ["Sư đoàn 5", "Sư đoàn 7", "Sư đoàn 9", "Sư đoàn 10", "Sư đoàn 304"]
+            },
+             {
+                question: "Ai là người chỉ huy mũi tiến công vào Dinh Độc Lập ngày 30/4/1975?",
+                correctAnswer: "Đại tá Bùi Tín",
+                wrongAnswers: ["Đại tá Nguyễn Thành Trung", "Đại tá Phạm Xuân Ẩn", "Đại tá Nguyễn Văn Tàu", "Đại tá Trần Văn Trà", "Đại tá Hoàng Cầm"]
+            },
+             {
+                question: "Xe tăng 843 thuộc đơn vị nào?",
+                correctAnswer: "Tiểu đoàn 1, Lữ đoàn xe tăng 203",
+                wrongAnswers: ["Tiểu đoàn 2, Lữ đoàn xe tăng 203", "Tiểu đoàn 3, Lữ đoàn xe tăng 203", "Tiểu đoàn 1, Lữ đoàn xe tăng 202", "Tiểu đoàn 2, Lữ đoàn xe tăng 202", "Tiểu đoàn 3, Lữ đoàn xe tăng 202"]
+            },
+             {
+                question: "Ai là người lái xe tăng 390 húc đổ cổng Dinh Độc Lập?",
+                correctAnswer: "Trung úy Bùi Quang Thận",
+                wrongAnswers: ["Trung úy Nguyễn Văn Thiệu", "Trung úy Ngô Đình Diệm", "Trung úy Nguyễn Cao Kỳ", "Trung úy Trần Văn Hương", "Trung úy Phan Khắc Sửu"]
+            },
+             {
+                question: "Ai là người chỉ huy xe tăng 843 tiến vào Dinh Độc Lập?",
+                correctAnswer: "Đại đội trưởng Bùi Quang Thận",
+                wrongAnswers: ["Chính trị viên Bùi Tùng", "Lái xe Nguyễn Văn Tập", "Pháo thủ Ngô Sỹ Nguyên", "Trưởng xe Nguyễn Văn Hòa", "Trưởng xe Lữ Văn Độ"]
+            },
+             {
+                question: "Ai là người kéo cờ trên nóc Dinh Độc Lập cùng với Bùi Quang Thận?",
+                correctAnswer: "Nguyễn Văn Tập",
+                wrongAnswers: ["Ngô Sỹ Nguyên", "Lữ Văn Độ", "Nguyễn Văn Hòa", "Bùi Tín", "Phạm Xuân Ẩn"]
+            },
+             {
+                question: "Thông điệp đầu tiên được phát đi từ Đài Phát thanh Sài Gòn sau khi quân giải phóng tiếp quản là gì?",
+                correctAnswer: "Sài Gòn đã hoàn toàn giải phóng. Quân đội Sài Gòn đã đầu hàng vô điều kiện.",
+                wrongAnswers: ["Chính phủ Cách mạng lâm thời Cộng hòa miền Nam Việt Nam tuyên bố thành lập.", "Đất nước Việt Nam đã thống nhất.", "Chào mừng ngày Giải phóng miền Nam.", "Hòa bình đã lập lại trên đất nước Việt Nam.", "Miền Nam hoàn toàn giải phóng."]
+            },
+             {
+                question: "Ai là người đọc lời tuyên bố đầu hàng vô điều kiện của Tổng thống cuối cùng của Việt Nam Cộng hòa?",
+                correctAnswer: "Dương Văn Minh",
+                wrongAnswers: ["Nguyễn Văn Thiệu", "Trần Văn Hương", "Nguyễn Cao Kỳ", "Ngô Đình Diệm", "Phan Khắc Sửu"]
+            },
+             {
+                question: "Sau ngày 30/4/1975, Sài Gòn được đổi tên thành gì?",
+                correctAnswer: "Thành phố Hồ Chí Minh",
+                wrongAnswers: ["Thành phố Giải Phóng", "Thành phố Thống Nhất", "Thành phố Hòa Bình", "Thành phố Miền Nam", "Thành phố Anh Hùng"]
+            },
+             {
+                question: "Ngày 30/4/1975 là sự kiện kết thúc cuộc kháng chiến chống đế quốc nào?",
+                correctAnswer: "Đế quốc Mỹ",
+                wrongAnswers: ["Đế quốc Pháp", "Đế quốc Nhật", "Đế quốc Trung Hoa", "Đế quốc Anh", "Đế quốc Tây Ban Nha"]
+            },
+             {
+                question: "Chiến thắng 30/4/1975 đã mở ra kỷ nguyên mới cho dân tộc Việt Nam, đó là kỷ nguyên gì?",
+                correctAnswer: "Kỷ nguyên độc lập, thống nhất, cả nước đi lên chủ nghĩa xã hội",
+                wrongAnswers: ["Kỷ nguyên hòa bình, phát triển", "Kỷ nguyên hội nhập quốc tế", "Kỷ nguyên đổi mới", "Kỷ nguyên công nghiệp hóa, hiện đại hóa", "Kỷ nguyên dân chủ, công bằng"]
+            }
+        ];
+
+        // Duplicate and modify question sets for variety (replace with actual distinct questions)
+        const allQuizQuestionsSet2 = JSON.parse(JSON.stringify(allQuizQuestionsSet1)); // Deep copy
+         // Example modification for Set 2: change some questions/answers
+         if (allQuizQuestionsSet2.length > 0) {
+             allQuizQuestionsSet2[0].question = "Bộ đội ta tiến vào giải phóng Sài Gòn vào giờ phút lịch sử nào trong ngày 30/4/1975?";
+             allQuizQuestionsSet2[0].correctAnswer = "11 giờ 30 phút";
+             allQuizQuestionsSet2[0].wrongAnswers = ["10 giờ 00 phút", "12 giờ 00 phút", "13 giờ 00 phút", "14 giờ 00 phút", "15 giờ 00 phút"];
+         }
+         if (allQuizQuestionsSet2.length > 1) {
+              allQuizQuestionsSet2[1].question = "Ai là người thay mặt Chính phủ Cách mạng lâm thời Cộng hòa miền Nam Việt Nam tiếp nhận sự đầu hàng của Tổng thống Dương Văn Minh?";
+              allQuizQuestionsSet2[1].correctAnswer = "Đại tá Bùi Tín";
+              allQuizQuestionsSet2[1].wrongAnswers = ["Đại tướng Văn Tiến Dũng", "Chính ủy Phạm Hùng", "Đại tá Nguyễn Thành Trung", "Đại tá Trần Văn Trà", "Đại tá Hoàng Cầm"];
+         }
+          // Add more modifications for Set 2...
+
+
+        const allQuizQuestionsSet3 = JSON.parse(JSON.stringify(allQuizQuestionsSet1)); // Deep copy
+         // Example modification for Set 3
+          if (allQuizQuestionsSet3.length > 0) {
+              allQuizQuestionsSet3[0].question = "Địa điểm nào là nơi Tổng thống Dương Văn Minh đọc lời tuyên bố đầu hàng vô điều kiện?";
+              allQuizQuestionsSet3[0].correctAnswer = "Đài Phát thanh Sài Gòn";
+              allQuizQuestionsSet3[0].wrongAnswers = ["Dinh Độc Lập", "Trụ sở Bộ Tổng Tham mưu", "Sân bay Tân Sơn Nhất", "Đại sứ quán Mỹ", "Nhà riêng"];
+          }
+           if (allQuizQuestionsSet3.length > 1) {
+               allQuizQuestionsSet3[1].question = "Cuộc Tổng tiến công và nổi dậy mùa Xuân 1975 bắt đầu bằng chiến dịch nào?";
+               allQuizQuestionsSet3[1].correctAnswer = "Chiến dịch Tây Nguyên";
+               allQuizQuestionsSet3[1].wrongAnswers = ["Chiến dịch Huế - Đà Nẵng", "Chiến dịch Phước Long", "Chiến dịch Xuân Lộc", "Chiến dịch Hồ Chí Minh", "Chiến dịch Biên giới"];
+           }
+           // Add more modifications for Set 3...
+
+
+        const allQuizQuestionsSet4 = JSON.parse(JSON.stringify(allQuizQuestionsSet1)); // Deep copy
+         // Example modification for Set 4
+          if (allQuizQuestionsSet4.length > 0) {
+              allQuizQuestionsSet4[0].question = "Tỉnh nào được giải phóng sau chiến dịch Tây Nguyên, tạo thành bàn đạp quan trọng cho quân ta tiến về Sài Gòn?";
+              allQuizQuestionsSet4[0].correctAnswer = "Đà Nẵng";
+              allQuizQuestionsSet4[0].wrongAnswers = ["Huế", "Nha Trang", "Cam Ranh", "Phan Rang", "Quy Nhơn"];
+          }
+           if (allQuizQuestionsSet4.length > 1) {
+               allQuizQuestionsSet4[1].question = "Ai là người ra lệnh cho quân đội Sài Gòn hạ vũ khí đầu hàng vô điều kiện vào trưa ngày 30/4/1975?";
+               allQuizQuestionsSet4[1].correctAnswer = "Tổng thống Dương Văn Minh";
+               allQuizQuestionsSet4[1].wrongAnswers = ["Tổng thống Nguyễn Văn Thiệu", "Phó Tổng thống Nguyễn Cao Kỳ", "Thủ tướng Trần Thiện Khiêm", "Đại tướng Cao Văn Viên", "Chuẩn tướng Nguyễn Hữu Hạnh"];
+           }
+           // Add more modifications for Set 4...
+
+
+        const allQuizSets = [allQuizQuestionsSet1, allQuizQuestionsSet2, allQuizQuestionsSet3, allQuizQuestionsSet4];
+
+
+        // Fisher-Yates (Knuth) Shuffle Algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+            return array; // Return the shuffled array
+        }
+
+        // Function to initialize the quiz with a selected set
+        function initializeQuiz(setIndex) {
+            // Shuffle the questions from the selected set
+            questions = shuffleArray([...allQuizSets[setIndex]]);
+            currentQuestionIndex = 0;
+            correctAnswers = 0; // Reset correct answers count
+
+            // Create progress dots
+            quizProgressDots.innerHTML = ''; // Clear previous dots
+            for (let i = 0; i < totalQuestions; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('progress-dot');
+                dot.id = `dot-${i}`; // Add an ID for easy reference
+                quizProgressDots.appendChild(dot);
+            }
+
+            // Show the first question
+            displayQuestion();
+        }
+
+        // Function to display a single question
+        function displayQuestion() {
+            // Ensure we don't go out of bounds
+            if (currentQuestionIndex >= questions.length) {
+                showSummary(); // Quiz finished, show summary
+                return;
+            }
+
+            // Hide completion message and summary board if they were shown
+            completionMessage.style.display = 'none';
+            summaryBoard.style.display = 'none';
+
+
+            const currentQuestion = questions[currentQuestionIndex];
+
+            // Update question counter
+            questionCounter.textContent = `Câu hỏi: ${currentQuestionIndex + 1}/${totalQuestions}`;
+
+             // Update progress dots
+            const dots = quizProgressDots.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('current', 'answered');
+                if (index === currentQuestionIndex) {
+                    dot.classList.add('current');
+                } else if (index < currentQuestionIndex) {
+                    dot.classList.add('answered');
+                }
+            });
+
+
+            // Display question text
+            questionText.textContent = currentQuestion.question;
+
+            // Prepare and display answer options (always shuffle options)
+            const allAnswers = [...currentQuestion.wrongAnswers, currentQuestion.correctAnswer];
+            const shuffledAnswers = shuffleArray(allAnswers);
+
+            answerOptionsDiv.innerHTML = ''; // Clear previous options
+            shuffledAnswers.forEach(answer => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('quiz-option');
+                optionElement.textContent = answer;
+                // Pass the correct answer and the option element to the click handler
+                optionElement.addEventListener('click', () => handleAnswerClick(answer, currentQuestion.correctAnswer, optionElement));
+                answerOptionsDiv.appendChild(optionElement);
+            });
+
+            // Clear previous feedback
+            quizFeedback.textContent = '';
+            quizFeedback.className = 'quiz-feedback'; // Reset classes
+
+            // Start the timer
+            startTimer();
+        }
+
+        // Function to start the countdown timer
+        function startTimer() {
+            let timeLeft = timePerQuestion;
+            timerDisplay.textContent = `Thời gian: ${timeLeft}s`;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = `Thời gian: ${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeout();
+                }
+            }, 1000); // Update every 1 second
+        }
+
+        // Function to handle timer running out
+        function handleTimeout() {
+            // Display timeout message
+            quizFeedback.textContent = "Hết giờ! Bạn cần học lại lịch sử, liệu bạn có yêu đất nước này không?";
+            quizFeedback.className = 'quiz-feedback timeout';
+
+            // Disable all answer options
+            disableOptions();
+
+            // Re-display the SAME question after a delay with shuffled options
+            setTimeout(() => {
+                 // Do NOT increment currentQuestionIndex here
+                 displayQuestion(); // Re-display the current question
+            }, 3000); // Wait for 3 seconds before re-displaying
+        }
+
+        // Function to handle user clicking an answer
+        function handleAnswerClick(selectedAnswer, correctAnswer, clickedElement) {
+            // Stop the timer
+            clearInterval(timer);
+
+            // Disable all options after an answer is selected
+            disableOptions();
+
+            if (selectedAnswer === correctAnswer) {
+                // Correct answer
+                quizFeedback.textContent = "Chính xác! Tuyệt vời!";
+                quizFeedback.className = 'quiz-feedback correct';
+                clickedElement.classList.add('correct'); // Highlight correct answer
+                correctAnswers++; // Increment correct answers count
+
+                 // Move to the next question after a delay (only on correct answer)
+                setTimeout(() => {
+                    currentQuestionIndex++; // Move to the next question
+                    displayQuestion();
+                }, 3000); // Wait for 3 seconds before next question
+
+            } else {
+                // Wrong answer
+                quizFeedback.textContent = "Sai rồi. Đáp án đúng là: " + correctAnswer;
+                quizFeedback.className = 'quiz-feedback wrong';
+                clickedElement.classList.add('wrong'); // Highlight the selected wrong answer
+
+                // Find and highlight the correct answer
+                const options = answerOptionsDiv.querySelectorAll('.quiz-option');
+                options.forEach(option => {
+                    if (option.textContent === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+
+                 // Re-display the SAME question after a delay with shuffled options
+                setTimeout(() => {
+                    // Do NOT increment currentQuestionIndex here
+                    displayQuestion(); // Re-display the current question
+                }, 3000); // Wait for 3 seconds before re-displaying
+            }
+        }
+
+        // Function to disable all answer options
+        function disableOptions() {
+            const options = answerOptionsDiv.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.add('disabled');
+            });
+        }
+
+        // Function to show the summary board
+        function showSummary() {
+            clearInterval(timer); // Stop any running timer
+
+            // Hide quiz content
+            quizContent.style.display = 'none';
+
+            // Show summary board
+            summaryBoard.style.display = 'flex';
+
+            // Display the score
+            correctAnswersCountSpan.textContent = correctAnswers;
+
+            // Determine button text and action based on score
+            if (correctAnswers >= 30) {
+                summaryActionButton.textContent = "Tiếp tục";
+                summaryActionButton.classList.remove('retry-button'); // Ensure retry class is not present
+                summaryActionButton.removeEventListener('click', retryQuiz); // Remove previous listener
+                summaryActionButton.addEventListener('click', endQuiz); // Add listener to proceed to animation
+            } else {
+                summaryActionButton.textContent = "Thử lại";
+                 summaryActionButton.classList.add('retry-button'); // Add retry class for styling
+                 summaryActionButton.removeEventListener('click', endQuiz); // Remove previous listener
+                summaryActionButton.addEventListener('click', retryQuiz); // Add listener to retry quiz
+            }
+        }
+
+         // Function to retry the quiz
+         function retryQuiz() {
+             summaryBoard.style.display = 'none'; // Hide summary board
+             quizSelection.style.display = 'flex'; // Show quiz selection again
+         }
+
+
+        // Function to end the quiz and start animation (used by debug or "Continue" button)
+        function endQuiz() {
+            clearInterval(timer); // Stop any running timer
+
+            // Hide quiz content, summary board, and admin modal
+            quizContent.style.display = 'none';
+            summaryBoard.style.display = 'none';
+            adminModal.style.display = 'none';
+
+
+            // Show completion message only if quiz was completed normally (not via debug)
+            if (currentQuestionIndex >= totalQuestions && correctAnswers >= 30) {
+                 completionMessage.style.display = 'block';
+                 // Wait for a few seconds after completion message before starting the animation
+                 setTimeout(startAnimation, 5000); // Wait for 5 seconds after completion message before animation
+            } else {
+                 // If debugged or didn't get enough correct answers, skip completion message and go straight to animation after a short delay
+                 completionMessage.style.display = 'none';
+                 setTimeout(startAnimation, 1000); // Short delay before animation
+            }
+        }
+
+        // Function to start the tank animation and transition to celebration
+        function startAnimation() {
+             // Hide info and quiz selection sections
+            infoSection.style.display = 'none';
+            quizSelection.style.display = 'none';
+             // Hide greeting section (which might contain completion message)
+            // This is already handled by hiding infoSection and quizSelection
+
+            // Show the animation section
+            animationSection.style.display = 'flex';
+
+            // Start the tank animation
+            // Calculate the target position for the tank to be centered at the gate
+            const gateContainer = animationSection.querySelector('.gate-container');
+            const gateRect = gateContainer.getBoundingClientRect();
+            const tankWidth = animatedTank.offsetWidth;
+            // Position the tank so its center aligns with the gate center
+            const targetLeft = gateRect.left + gateRect.width / 2 - tankWidth / 2;
+
+            animatedTank.style.left = `${targetLeft}px`;
+
+            // Define the duration of the tank animation (must match CSS transition duration)
+            const tankAnimationDuration = 3000; // 3 seconds
+
+            // Set a timeout to trigger the gate crash animation after the tank reaches the gate
+            setTimeout(() => {
+                // Make gates crash outwards by rotating and translating
+                gateLeft.style.transform = 'translateX(-100%) rotate(-20deg)'; // Move left and rotate
+                gateRight.style.transform = 'translateX(100%) rotate(20deg)'; // Move right and rotate
+
+                // Define the duration of the gate crash animation (must match CSS transition duration)
+                const gateCrashDuration = 1000; // 1 second
+
+                // Set a timeout to transition to the celebration section after the gates crash
+                setTimeout(() => {
+                    animationSection.style.display = 'none'; // Hide animation section
+                    celebrationSection.style.display = 'flex'; // Show celebration section
+
+                    // Start creating flying texts for the celebration
+                    // Create an initial batch of flying texts
+                    const initialTextCount = Math.min(originalMessages.length, 5); // Create up to 5 unique texts initially
+                    for (let i = 0; i < initialTextCount; i++) {
+                        createFlyingText();
+                    }
+
+                    // Set an interval to continuously create new flying texts
+                    const creationInterval = 20000; // Increased interval to 20 seconds
+                    setInterval(createFlyingText, creationInterval);
+
+                }, gateCrashDuration); // Wait for the gate crash animation to finish
+
+            }, tankAnimationDuration); // Wait for the tank animation to finish
+        }
+
+
+        // Function to create and animate flying text
+        function createFlyingText() {
+            // Only create text if there are messages available
+            if (originalMessages.length > 0) {
+                const textElement = document.createElement('div');
+                textElement.classList.add('flying-text');
+
+                // Get a unique random message
+                const message = getUniqueRandomMessage();
+                textElement.textContent = message;
+
+                // Randomize start and end vertical positions (wider range)
+                const startY = 5 + Math.random() * 90; // range from 5vh to 95vh
+                const endY = 5 + Math.random() * 90; // range from 5vh to 95vh
+                textElement.style.setProperty('--start-y', `${startY}vh`);
+                textElement.style.setProperty('--end-y', `${endY}vh`);
+
+                // Randomize start, mid, and end horizontal positions
+                const startX = -20 - Math.random() * 10; // range from -20% to -30%
+                const midX = 30 + Math.random() * 40; // range from 30% to 70%
+                const endX = 120 + Math.random() * 10; // range from 120% to 130%
+                textElement.style.setProperty('--start-x', `${startX}%`);
+                textElement.style.setProperty('--mid-x', `${midX}%`);
+                textElement.style.setProperty('--end-x', `${endX}%`);
+
+                // Randomize mid-y position slightly around the linear path
+                const midY = (startY + endY) / 2 + (Math.random() - 0.5) * 20; // average Y with +/- 10vh random offset
+                textElement.style.setProperty('--mid-y', `${midY}vh`);
+
+                // Random animation duration (for varied speeds)
+                const randomDuration = 15 + Math.random() * 15; // range from 15s to 30s (slower overall)
+                textElement.style.animationDuration = `${randomDuration}s`;
+
+                // Random animation delay (for staggered appearance)
+                const randomDelay = Math.random() * 10; // range from 0s to 10s (more delay)
+                textElement.style.animationDelay = `${randomDelay}s`;
+
+                // Random rotation angles
+                const randomRotateStart = (Math.random() - 0.5) * 30; // range from -15deg to 15deg
+                const randomRotateMid = (Math.random() - 0.5) * 30; // range from -15deg to 15deg
+                const randomRotateEnd = (Math.random() - 0.5) * 30; // range from -15deg to 15deg
+                textElement.style.setProperty('--start-rotate', `${randomRotateStart}deg`);
+                textElement.style.setProperty('--mid-rotate', `${randomRotateMid}deg`);
+                textElement.style.setProperty('--end-rotate', `${randomRotateEnd}deg`);
+
+                // Random scale changes
+                const randomScaleStart = 0.6 + Math.random() * 0.4; // range from 0.6 to 1.0
+                const randomScaleMid = 0.9 + Math.random() * 0.4; // range from 0.9 to 1.3
+                const randomScaleEnd = 1.1 + Math.random() * 0.4; // range from 1.1 to 1.5
+                textElement.style.setProperty('--start-scale', randomScaleStart);
+                textElement.style.setProperty('--mid-scale', randomScaleMid);
+                textElement.style.setProperty('--end-scale', randomScaleEnd);
+
+                // Append the created text element to the celebration section
+                flyingTextContainer.appendChild(textElement);
+
+                // Remove the element after its animation ends to prevent DOM clutter
+                textElement.addEventListener('animationend', () => {
+                    textElement.remove();
+                });
+            }
+        }
+
+        // Function to get a unique random message (for flying text)
+        function getUniqueRandomMessage() {
+            if (availableMessages.length === 0) {
+                // If all messages have been used, reset the list and shuffle
+                availableMessages = [...originalMessages];
+                shuffleArray(availableMessages);
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableMessages.length);
+            const message = availableMessages[randomIndex];
+
+            // Remove the selected message from the available list
+            availableMessages.splice(randomIndex, 1);
+
+            return message;
+        }
+
+
+        // --- Event Listeners ---
+
+        // Event listener to go from info section to quiz selection
+        startQuizSelectionButton.addEventListener('click', () => {
+            infoSection.style.display = 'none';
+            quizSelection.style.display = 'flex';
+        });
+
+        // Event listeners for quiz set selection buttons
+        const quizSetButtons = document.querySelectorAll('.quiz-set-button');
+        quizSetButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const setIndex = parseInt(event.target.dataset.set);
+                quizSelection.style.display = 'none';
+                quizContent.style.display = 'flex';
+                initializeQuiz(setIndex); // Initialize quiz with the selected set
+            });
+        });
+
+
+        // Event listener for clicking the debug target text
+        debugClickTarget.addEventListener('click', () => {
+            // Clear any existing timer
+            if (debugClickTimer !== null) {
+                clearTimeout(debugClickTimer);
+            }
+
+            // Increment the click counter
+            debugClickCounter++;
+
+            // Check if the threshold is reached
+            if (debugClickCounter >= debugClickThreshold) {
+                // Trigger debug mode (show admin modal)
+                adminModal.style.display = 'flex';
+                // Clear any previous feedback
+                adminFeedback.textContent = '';
+                // Clear input fields
+                adminUsernameInput.value = '';
+                adminPasswordInput.value = '';
+
+                // Reset counter after triggering
+                debugClickCounter = 0;
+            } else {
+                // Set a timer to reset the counter if no new click occurs within the timeout
+                debugClickTimer = setTimeout(() => {
+                    debugClickCounter = 0;
+                    debugClickTimer = null; // Clear the timer variable
+                }, debugClickTimeout);
+            }
+        });
+
+
+        // Event listener for the admin login button
+        adminLoginButton.addEventListener('click', () => {
+            const enteredUsername = adminUsernameInput.value;
+            const enteredPassword = adminPasswordInput.value;
+
+            if (enteredUsername === adminUser && enteredPassword === adminPass) {
+                // Correct credentials, proceed to animation
+                adminFeedback.textContent = 'Đăng nhập thành công!';
+                adminFeedback.style.color = '#2ecc71'; // Green color for success
+                // Use a short delay before ending quiz to show success message
+                setTimeout(() => {
+                    // Set currentQuestionIndex to totalQuestions to indicate completion (for endQuiz logic)
+                    currentQuestionIndex = totalQuestions; // Simulate completing the quiz
+                    endQuiz(); // Skip to animation
+                }, 1000); // Wait for 1 second
+            } else {
+                // Incorrect credentials
+                adminFeedback.textContent = 'Sai tên đăng nhập hoặc mật khẩu!';
+                adminFeedback.style.color = '#e74c3c'; // Red color for error
+            }
+        });
+
+         // Allow closing modal by clicking outside or pressing Escape (optional but good UX)
+         adminModal.addEventListener('click', (event) => {
+             if (event.target === adminModal) {
+                 adminModal.style.display = 'none';
+             }
+         });
+
+         document.addEventListener('keydown', (event) => {
+             if (event.key === 'Escape' && adminModal.style.display === 'flex') {
+                 adminModal.style.display = 'none';
+             }
+         });
+
+
+        // Add a resize observer to adjust tank position if the window is resized during animation
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                if (entry.target === animationSection && animationSection.style.display === 'flex') {
+                    // If the animation section is visible and resized, recalculate and set the tank's target position
+                    const gateContainer = animationSection.querySelector('.gate-container');
+                    const gateRect = gateContainer.getBoundingClientRect();
+                    const tankWidth = animatedTank.offsetWidth;
+                    const targetLeft = gateRect.left + gateRect.width / 2 - tankWidth / 2;
+                    animatedTank.style.left = `${targetLeft}px`;
+                }
+            }
+        });
+
+        // Observe the animation section for resizes
+        resizeObserver.observe(animationSection);
+
+        // Initial state: Show info section
+        infoSection.style.display = 'flex';
+
+
+    </script>
+</body>
+</html>
